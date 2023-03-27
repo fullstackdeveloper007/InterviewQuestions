@@ -1,4 +1,4 @@
-AddTransient Vs AddScoped Vs AddSingleton In ASP.NET Core
+Q1. AddTransient Vs AddScoped Vs AddSingleton In ASP.NET Core
 
 
 
@@ -8,7 +8,7 @@ AddTransient Vs AddScoped Vs AddSingleton In ASP.NET Core
 
 
 
-Answer: 
+Answer1: 
 In startup.cs 
  public void ConfigureServices(IServiceCollection services)
   {
