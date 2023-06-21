@@ -1,4 +1,5 @@
 ## Say Hello to .Net core .. 👋 
+>Click :star:if you like the work 
 
 **1. .Net Core Basics**
 * **.net core**  - It is open source,cross Platform, light and dependency injection is an added advantage.
@@ -136,9 +137,111 @@ private static void HandleMapOne(IApplicationBuilder app)
 </pre> 
 
 **4. Describe the structure and purpose of the Startup.cs file in an ASP.NET Core application**
+<div>
 The Startup.cs file establishes the entry point and environment for your ASP.NET Core application; it creates services and injects dependencies so that the rest of the app can use them. The three methods in a default Startup.cs file each handle a different part of setting up the environment:
 
-The constructor Startup() allows us to setup or include the configuration values.
-ConfigureServices() allows us to add services to the Dependency Injection container.
-Configure() allows us to add middleware and services to the HTTP pipeline.
+>**The constructor Startup()** allows us to setup or include the configuration values.
 
+>**ConfigureServices()** allows us to add services to the Dependency Injection container.
+
+>**Configure()** allows us to add middleware and services to the HTTP pipeline.
+</div>
+
+**5. Action Result**
+Actions are the methods in controller class which are responsible for returning the view or Json data.
+<table>
+<tbody style="outline: 0px;">
+         <tr style="outline: 0px;" bgcolor="#0270bf">
+             <td style="border: 1px dashed #ababab;">
+             <div><span style="color: #ffffff;">Action Method</span></div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div><span style="color: #ffffff;">Description</span></div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>IActionResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>Defines a contract that represents the result of an action method.</div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>ActionResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>A default implementation of IActionResult.</div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>ContentResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>Represents a text result.</div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>EmptyResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>Represents an ActionResult that when executed will do nothing.</div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>JsonResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>An action result which formats the given object as JSON.</div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>PartialViewResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>Represents an ActionResult that renders a partial view to the response.</div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>ViewResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>Represents an ActionResult that renders a view to the response.</div>
+             </td>
+         </tr>
+         <tr>
+             <td style="border: 1px dashed #ababab;">
+             <div>ViewComponentResult</div>
+             </td>
+             <td style="border: 1px dashed #ababab;">
+             <div>An IActionResult which renders a view component to the response.</div>
+             </td>
+         </tr>
+     </tbody></table>
+<pre class="notranslate">
+<code>   
+public IActionResult Index()  
+{  
+      return View();  
+} 
+public ActionResult About()  
+{  
+     return View();  
+}
+public ContentResult ContentResult()  
+{  
+      return Content("I am ContentResult");  
+} 
+public EmptyResult EmptyResult()  
+{  
+   return new EmptyResult();  
+}
+</code>
+</pre> 
+**Refrence Article:** https://www.c-sharpcorner.com/article/actionresult-in-asp-net-core-mvc/
