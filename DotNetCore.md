@@ -1,4 +1,4 @@
-## .Net core .. 👋 
+## Say Hello to .Net core .. 👋 
 
 **1. .Net Core Basics**
 * **.net core**  - It is open source,cross Platform, light and dependency injection is an added advantage.
@@ -34,10 +34,10 @@ Singleton lifetime services are created the first time they are requested (or wh
 **3. Understanding Middleware In ASP.NET Core**
 <div>
 Middle ware is injected in application pipeline to handle the request and responses.For instance, There can have one middleware component to authenticate users, another piece of middleware to handle errors, and another middleware to serve static files such as JavaScript, CSS, images, etc.
-It .Net core we inject the middle ware inside Configure method of startup class.
-
- <pre class="notranslate">
- <code>
+It .Net core we inject the middle ware inside Configure method of startup class.<br/>
+ 
+<pre class="notranslate">
+<code>
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)    
 {    
     if (env.IsDevelopment())    
@@ -70,5 +70,66 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         endpoints.MapRazorPages();               
     });    
 } 
-</code></pre>
+</code></pre> 
 </div>
+
+**app.Run()** -
+This middleware component may expose Run[Middleware] methods that are executed at the end of the pipeline. Generally, this acts as a terminal middleware and is added at the end of the request pipeline, as it cannot call the next middleware.
+
+**app.Use()**
+This is used to configure multiple middleware. Unlike app.Run(), We can include the next parameter into it, which calls the next request delegate in the pipeline. We can also short-circuit (terminate) the pipeline by not calling the next parameter. 
+<pre>
+<code>
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+      if (env.IsDevelopment() || _ebsConfiguration.EnableSwagger )
+      {
+         app.UseDeveloperExceptionPage();
+          app.UseSwagger();
+          app.UseSwaggerUI(c =>
+          {
+              c.ConfigObject.AdditionalItems["syntaxHighlight"] = new Dictionary<string, object>
+              {
+                  ["activated"] = false
+              };
+              c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test.Core v1");
+          });
+      }
+      app.UseHttpsRedirection();
+      app.UseRouting();
+      app.UseAuthorization();
+      app.UseEndpoints(endpoints =>
+      {
+         endpoints.MapControllers();
+      });
+}
+<code>
+</pre>
+
+**app.Map()**- These extensions are used as a convention for branching the pipeline. The map branches the request pipeline based on matches of the given request path. If the request path starts with the given path, the branch is executed.
+<pre class="notranslate">
+<code>
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)  
+{  
+    app.Map("/m1", HandleMapOne);  
+    app.Map("/m2", appMap => {  
+        appMap.Run(async context =>  
+        {  
+            await context.Response.WriteAsync("Hello from 2nd app.Map()");  
+        });  
+    });  
+    app.Run(async (context) =>  
+    {  
+        await context.Response.WriteAsync("Hello from app.Run()");  
+    });  
+}  
+private static void HandleMapOne(IApplicationBuilder app)  
+{  
+    app.Run(async context =>  
+    {  
+        await context.Response.WriteAsync("Hello from 1st app.Map()");  
+    });   
+}
+</code></pre> 
+
+**Refrence Article:**  https://www.c-sharpcorner.com/article/overview-of-middleware-in-asp-net-core/
