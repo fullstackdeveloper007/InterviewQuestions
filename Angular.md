@@ -1,4 +1,6 @@
-##Angular Notes
+# Angular Notes
+
+#### Loop
 <pre class="notranslate">
 <code>
 <p> \*<li *ngFor="let person of people"> (1)
