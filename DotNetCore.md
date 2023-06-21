@@ -149,6 +149,7 @@ The Startup.cs file establishes the entry point and environment for your ASP.NET
 
 **5. Action Result**
 Actions are the methods in controller class which are responsible for returning the view or Json data.
+**Refrence Article:** https://www.c-sharpcorner.com/article/actionresult-in-asp-net-core-mvc/
 <table>
 <tbody style="outline: 0px;">
          <tr style="outline: 0px;" bgcolor="#0270bf">
@@ -244,4 +245,57 @@ public EmptyResult EmptyResult()
 }
 </code>
 </pre> 
-**Refrence Article:** https://www.c-sharpcorner.com/article/actionresult-in-asp-net-core-mvc/
+
+**5.How does routing work in ASP.NET Core MVC ?**
+
+Routing in ASP.NET Core MVC is the mechanism through which incoming requests are mapped to controllers and their actions. This is achieved by adding Routing middleware to the pipeline and using IRouteBuilder to map URL pattern (template) to a controller and action.
+Add HomeController to demonstrate the conventional routing (see discussion).
+
+**Refrence Article:** https://www.c-sharpcorner.com/article/asp-net-core-2-0-mvc-routing/
+
+<pre class="notranslate">
+<code>
+public class HomeController :controlller
+{
+	public IActionResult Index()
+	{
+	}	
+	[HttpGet]
+	public IActionResult PageTwo()
+	{
+	}
+	[HttpGet]
+	public IActionResult PageTwo(int id)
+	{
+	}
+}
+</code>
+</pre> 
+
+>Attribute Routing
+
+<pre class="notranslate">
+<code>
+[Route("Work")]
+public class HomeController :controlller
+{
+	public IActionResult Index()
+	{
+	}	
+	[Route("One")]
+	public IActionResult PageTwo()
+	{
+	}
+	[Route("Two")]
+	public IActionResult PageTwo(int id)
+	{
+	}
+}</code>
+</pre>
+
+**Razor Pages**
+It supports cross-platform, hence it can be deployed on Windows, Unix, and Mac operating systems.
+It is easy to learn.
+Lightweight and flexible framework so it can fit with any application you want to build.
+Can work with C# programming language with Razor markup.
+More organized with code behind page like asp.net web forms.
