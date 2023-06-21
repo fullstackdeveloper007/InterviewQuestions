@@ -20,7 +20,7 @@
   </tr>
   <tr>
     <td>     5    </td>
-     <td>   Design Pattern    </td>
+     <td>   Design Pattern <a href="https://github.com/fullstackdeveloper007/InterviewQuestions/blob/main/DesignPatterns.md"></a>    </td>
   </tr>
    <tr>
     <td>     6   </td>
