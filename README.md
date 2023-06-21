@@ -34,6 +34,10 @@
     <td>     8   </td>
      <td>  Oops concept   </td>
   </tr>
+     <tr>
+    <td>     9   </td>
+     <td>  PL/SQL    </td>
+  </tr>
   </tbody>
 </table>
   
