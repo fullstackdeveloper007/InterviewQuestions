@@ -32,6 +32,7 @@ Singleton lifetime services are created the first time they are requested (or wh
  </div>
  
 **3. Understanding Middleware In ASP.NET Core**
+<p>**Refrence Article :**  https://www.c-sharpcorner.com/article/overview-of-middleware-in-asp-net-core/</p>
 <div>
 Middle ware is injected in application pipeline to handle the request and responses.For instance, There can have one middleware component to authenticate users, another piece of middleware to handle errors, and another middleware to serve static files such as JavaScript, CSS, images, etc.
 It .Net core we inject the middle ware inside Configure method of startup class.<br/>
@@ -73,10 +74,10 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 </code></pre> 
 </div>
 
-**app.Run()** -
+**a) app.Run()** -
 This middleware component may expose Run[Middleware] methods that are executed at the end of the pipeline. Generally, this acts as a terminal middleware and is added at the end of the request pipeline, as it cannot call the next middleware.
 
-**app.Use()**
+**b) app.Use()**
 This is used to configure multiple middleware. Unlike app.Run(), We can include the next parameter into it, which calls the next request delegate in the pipeline. We can also short-circuit (terminate) the pipeline by not calling the next parameter. 
 <pre>
 <code>
@@ -103,10 +104,11 @@ This is used to configure multiple middleware. Unlike app.Run(), We can include 
          endpoints.MapControllers();
       });
 }
-<code>
+</code>
 </pre>
 
-**app.Map()**- These extensions are used as a convention for branching the pipeline. The map branches the request pipeline based on matches of the given request path. If the request path starts with the given path, the branch is executed.
+**c) app.Map()**- These extensions are used as a convention for branching the pipeline. The map branches the request pipeline based on matches of the given request path. If the request path starts with the given path, the branch is executed.
+
 <pre class="notranslate">
 <code>
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)  
@@ -130,6 +132,13 @@ private static void HandleMapOne(IApplicationBuilder app)
         await context.Response.WriteAsync("Hello from 1st app.Map()");  
     });   
 }
-</code></pre> 
+</code>
+</pre> 
 
-**Refrence Article:**  https://www.c-sharpcorner.com/article/overview-of-middleware-in-asp-net-core/
+**4. Describe the structure and purpose of the Startup.cs file in an ASP.NET Core application**
+The Startup.cs file establishes the entry point and environment for your ASP.NET Core application; it creates services and injects dependencies so that the rest of the app can use them. The three methods in a default Startup.cs file each handle a different part of setting up the environment:
+
+The constructor Startup() allows us to setup or include the configuration values.
+ConfigureServices() allows us to add services to the Dependency Injection container.
+Configure() allows us to add middleware and services to the HTTP pipeline.
+
