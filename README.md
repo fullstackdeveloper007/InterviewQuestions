@@ -38,6 +38,10 @@
     <td>     9   </td>
      <td>  PL/SQL    </td>
   </tr>
+     <tr>
+    <td>     10  </td>
+     <td>  Angular    </td>
+  </tr>
   </tbody>
 </table>
   
