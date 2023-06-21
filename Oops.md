@@ -2,6 +2,7 @@
 
 A method Foo() which is declared in the base class A and not redeclared in classes B or C is inherited in the two subclasses:
 Prog.1:
+<div>
 using System;
     namespace Polymorphism
     {
@@ -9,9 +10,7 @@ using System;
         {
             public void Foo() { Console.WriteLine("A::Foo()"); }
         }
-
-        class B : A {}
-
+	class B : A {}
         class Test
         {
             static void Main(string[] args)
@@ -24,7 +23,7 @@ using System;
             }
         }
     }
-
+</div>
 Prog.2:
 
 using System;
@@ -34,12 +33,10 @@ using System;
         {
               public void Foo() { Console.WriteLine("A::Foo()"); }
         }
-
         class B : A
         {
               public void Foo() { Console.WriteLine("B::Foo()"); }
         }
-
         class Test
         {
             static void Main(string[] args)
@@ -74,12 +71,10 @@ using System;
         {
             public virtual void Foo() { Console.WriteLine("A::Foo()"); }
         }
-
         class B : A
         {
             public override void Foo() { Console.WriteLine("B::Foo()"); }
         }
-
         class Test
         {
             static void Main(string[] args)
@@ -112,12 +107,10 @@ using System;
         {
             public void Foo() { Console.WriteLine("A::Foo()"); }
         }
-
         class B : A
         {
             public new void Foo() { Console.WriteLine("B::Foo()"); }
         }
-
         class Test
         {
             static void Main(string[] args)
@@ -138,8 +131,6 @@ using System;
     
 ## Combining Method Overriding and Hiding 
 Methods of a derived class can both be virtual and at the same time hide the derived method. In order to declare such a method, both keywords virtual and new have to be used in the method declaration: 
-
-
 
 	class A
             {
