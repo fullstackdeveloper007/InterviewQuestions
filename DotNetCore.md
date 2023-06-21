@@ -149,6 +149,7 @@ The Startup.cs file establishes the entry point and environment for your ASP.NET
 
 **5. Action Result**
 Actions are the methods in controller class which are responsible for returning the view or Json data.
+
 **Refrence Article:** https://www.c-sharpcorner.com/article/actionresult-in-asp-net-core-mvc/
 <table>
 <tbody style="outline: 0px;">
