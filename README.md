@@ -20,7 +20,7 @@
   </tr>
   <tr>
     <td>     5    </td>
-     <td>   Design Pattern <a href="https://github.com/fullstackdeveloper007/InterviewQuestions/blob/main/DesignPatterns.md"></a>    </td>
+     <td>  <a href="https://github.com/fullstackdeveloper007/InterviewQuestions/blob/main/DesignPatterns.md"> Design Patterns </a>    </td>
   </tr>
    <tr>
     <td>     6   </td>
@@ -29,6 +29,10 @@
   <tr>
     <td>     7   </td>
      <td>  Programing Skills    </td>
+  </tr>
+    <tr>
+    <td>     8   </td>
+     <td>  Oops concept   </td>
   </tr>
   </tbody>
 </table>
