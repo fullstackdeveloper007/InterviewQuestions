@@ -34,10 +34,4 @@
 </table>
   
  
-asp.net
-C# 
-Javascript
-Programing
-WEB API
-Micro services
-Design Pattern -
+ 
