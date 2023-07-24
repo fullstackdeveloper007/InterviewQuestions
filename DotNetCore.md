@@ -9,7 +9,7 @@
    By exposing dependencies in the constructor, you expose public information about the needs of your code, further explaining what it does and what it's needs are..
 
 **2. AddTransient Vs AddScoped Vs AddSingleton In ASP.NET Core**
-
+![NetCore](https://github.com/fullstackdeveloper007/InterviewQuestions/assets/96370256/8795f7b8-9331-4f5c-a418-a9ed70ed4d83)
 * **AddTransient** - Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
 
 * **AddScoped** -
