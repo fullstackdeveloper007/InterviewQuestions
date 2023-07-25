@@ -1,12 +1,14 @@
 # Angular Notes
 
 #### Loop
-<pre class="notranslate">
-<code>
-<p> \*<li *ngFor="let person of people"> (1)
+<pre><code>    
+<div>
+<li *ngFor="let person of people"> 
     {{ person.name }}
-  </li>*/</p>
-  </code></pre>
+</li>
+</div>
+</code></pre>
+
  ## Angular provides two different approaches to handling user input through forms: reactive and template-driven
  https://angular.io/guide/forms-overview
  
