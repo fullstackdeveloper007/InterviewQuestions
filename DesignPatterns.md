@@ -9,6 +9,8 @@ Desin patterns can be categorized as below:
 **Behavioral patterns** take care of effective communication and the assignment of responsibilities between objects.
 
 
+
+
 <table>
   <tbody>
   <tr>
@@ -93,4 +95,9 @@ SOLID is an acronym for the first 5 principles of object-oriented design:
   
 **Ref. Links** https://refactoring.guru/design-patterns/catalog
   </div>
+# Liskov Substitution Principle:
+The Liskov Substitution Principle (LSP) states, "you should be able to use any derived class instead of a parent class and have it behave in the same manner without modification.". It ensures that a derived class does not affect the behavior of the parent class; in other words, a derived class must be substitutable for its base class.
+
+This principle is just an extension of the Open Closed Principle, and we must ensure that newly derived classes extend the base classes without changing their behavior. I will explain this with a real-world example that violates LSP.
+
 
