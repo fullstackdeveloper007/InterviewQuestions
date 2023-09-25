@@ -45,7 +45,9 @@ public class Program
                 c.ResolveConflictingActions(a => a.First());
             });
         }
->>>>>>
+		    
+>>>>>> Configure Method.
+		    
 	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment() || _ebsConfiguration.EnableSwagger )
