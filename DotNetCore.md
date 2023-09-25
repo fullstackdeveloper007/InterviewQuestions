@@ -103,7 +103,7 @@ Singleton lifetime services are created the first time they are requested (or wh
 <p>**Refrence Article :**  https://www.c-sharpcorner.com/article/overview-of-middleware-in-asp-net-core/</p>
 <div>
 Middle ware is injected in application pipeline to handle the request and responses.For instance, There can have one middleware component to authenticate users, another piece of middleware to handle errors, and another middleware to serve static files such as JavaScript, CSS, images, etc.
-It .Net core we inject the middle ware inside Configure method of startup class.<br/>
+It .Net core we inject the middle ware inside **Configure method** of startup class.<br/>
  
 <pre class="notranslate">
 <code>
