@@ -8,6 +8,71 @@
 
    By exposing dependencies in the constructor, you expose public information about the needs of your code, further explaining what it does and what it's needs are..
 
+##Program.cs file
+
+<pre class="notranslate">
+<code>
+public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+            .ReadFrom.Configuration(hostingContext.Configuration))
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    
+                });
+    }
+</code></pre>
+
+##Starup.cs
+<pre>
+	<code>
+	public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMemoryCache(); 
+            services.AddTransient<IClientService, ClientService>(); 
+            services.AddControllers();            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test.Title", Version = "v1" });
+                c.ResolveConflictingActions(a => a.First());
+            });
+        }
+>>>>>>
+	public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment() || _ebsConfiguration.EnableSwagger )
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.ConfigObject.AdditionalItems["syntaxHighlight"] = new Dictionary<string, object>
+                    {
+                        ["activated"] = false
+                    };
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "EBS.Core v1");
+                });
+            }
+
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
+	</code>
+</pre>
+
 **2. AddTransient Vs AddScoped Vs AddSingleton In ASP.NET Core**
 ![NetCore](https://github.com/fullstackdeveloper007/InterviewQuestions/assets/96370256/8795f7b8-9331-4f5c-a418-a9ed70ed4d83)
 * **AddTransient** - Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
