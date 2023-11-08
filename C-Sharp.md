@@ -1,4 +1,24 @@
-### Accessibility Levels in C#
+# C#
+
+<table>
+  <tbody>
+  <tr>
+    <td>      1    </td>
+     <td> Accessibility Levels in C#  </td>
+  </tr>
+  <tr>
+    <td>     2    </td>
+     <td>  Diff btwn Partiall class and Extension method    </td>
+  </tr>
+   <tr>
+    <td>     3    </td>
+     <td>   </td>
+  </tr>
+  
+  </tbody>
+</table>
+
+### 1. Accessibility Levels in C#
 
 - **public**:
   - The type or member can be accessed by any other code in the same assembly or another assembly that references it.
@@ -18,3 +38,7 @@
 
 - **private protected**:
   - The type or member can be accessed by types derived from the class that are declared within its containing assembly.
+
+### 2. Diff btwn Partiall class and Extension method
+
+
