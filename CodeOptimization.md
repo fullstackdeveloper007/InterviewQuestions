@@ -63,7 +63,7 @@ class Program
 }
 </code></pre>
 
-## 3. Try Below
+## 2. Try Below
 <pre><code>
 class Department
 {
