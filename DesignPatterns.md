@@ -123,8 +123,7 @@ Now we need to define the wrapper/Adapter class to make the export functionality
 
       ex= new pdfExportAdapter();
       ex.save();//through wrapper class we are able to use the same Interface. 
-    } 
-    
+    }     
   }
   </code>
 </pre>
@@ -134,6 +133,8 @@ Factory Method is a creational design pattern, it abstract the process of object
 Use the Factory Method when you don’t know beforehand the exact types and dependencies of the objects your code should work with
  
 Factory allows the consumer to create new objects without having to know the details of how they're created, or what their dependencies are - they only have to give the information they actually want.
+
+The another advantage of factory pattern is decopling of one class from the other. change at one place and reflect at many places.
 
 <div>  
 **Pros**  
@@ -163,9 +164,7 @@ Factory allows the consumer to create new objects without having to know the det
 namespace DesignPattern
 {
     public interface Itax {
-
-        void Calculate();
-    
+        void Calculate();    
     }
     public class GstTax : Itax
     {
@@ -226,6 +225,16 @@ namespace DesignPattern
             }
         }
     }  
+}
+
+//After factory pattern, the class initialization is hidden and can be used like below. 
+public class programe
+{
+    public static void main()
+    {
+        Itax x=Factory.CreateInstance(1);
+        x.Calculate();
+    }
 }
 </code></pre>
 ## 2. 
