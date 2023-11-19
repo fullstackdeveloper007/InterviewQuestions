@@ -135,10 +135,8 @@ Use the Factory Method when you don’t know beforehand the exact types and depe
  
 Factory allows the consumer to create new objects without having to know the details of how they're created, or what their dependencies are - they only have to give the information they actually want.
 
-<div>
-  
-**Pros**
-  
+<div>  
+**Pros**  
   <ul>
     <li>
       You avoid tight coupling between the creator and the concrete products.</li>
@@ -161,8 +159,7 @@ Factory allows the consumer to create new objects without having to know the det
 </div>
 
 ## Implementation 
-<pre><code>
-  
+<pre><code>  
 namespace DesignPattern
 {
     public interface Itax {
