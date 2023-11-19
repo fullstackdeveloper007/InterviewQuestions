@@ -14,22 +14,121 @@ Desin patterns can be categorized as below:
 <table>
   <tbody>
   <tr>
+    <td>1.</td>
     <td>Singleton Pattern</td>
   </tr>
   <tr>
+     <td>2.</td>
+    <td>Adapter Pattern</td>
+  </tr>
+  <tr>
+     <td>3.</td>
     <td>Factory Pattern</td>
   </tr>
    <tr>
+      <td>4.</td>
     <td>Facade</td>
   </tr>
   <tr>
+     <td>5.</td>
     <td>Repository Pattern</td>
   </tr>
     <tr>
+       <td>6.</td>
     <td>Dependency Injection (DI) Pattern</td>
   </tr>
   </tbody>
 </table>
+
+##1. Singleton Pattern
+
+Credit: https://www.youtube.com/watch?v=mFdFYm4RiDw
+
+##2. Adapter Pattern
+Adapter pattern is a structural design pattern which works as a bridge between two incompatible interfaces. It also known as a wrapper pattern. It allows the interface of an existing class to be used as another interface. Lets drill down the Adaptor pattern with an example, Suppose we have an export functionality in our application for ExporttoWord and Exporttoexcel like below
+
+Base inetrface "IExport" is defined with method decalration Save() so that exportToExcel and exporttoWord can make a uniform functionality.
+
+<pre><code>
+  public interface IExport{
+    void Save();  
+  }
+</code></pre>
+
+ExportToWord and ExportToExcel functionality is inherrting the generic Interface.
+
+<pre><code>
+public class ExportToWord:IExport{
+  public void Save(){
+    throw new NonImplementationException();    
+  }  
+}
+
+
+public class ExportToExcel:IExport{
+  public void Save(){
+    throw new NonImplementationException();    
+  }  
+}  
+</code></pre>
+
+We can use the Export functioanlity like below.
+
+<pre>
+  <code>
+  class program{
+    static void main(string[] args){
+      IExport ex= new ExportToWord();
+      ex.Save();
+
+      ex= new ExportToExcel();
+      ex.Save();
+    }     
+  }
+  </code>
+</pre>
+
+Lets assume, We are using a third party libarary for ExportToPdf and third party library has a method Export() like below not save() as have in Iexport interface.In this case we will not be able to use the generic way of export by calling a save() method for export. In this case we need to define a wrapper/Adapter class so that IExport can work uniformaly with third party libraray as well.
+
+<pre><code>
+  // Third party library has export functionality as below. 
+  public class TpExportPdf{
+    public vois Export(){  
+    }
+  }
+</code></pre>
+
+Now we need to define the wrapper/Adapter class to make the export functionality uniformaly.
+<pre>
+  <code>
+    public class pdfExportAdapter:IExport{
+       public void Save(){
+          TpExportPdf obj= new TpExportPdf();//
+          obj.Export();
+        } 
+    }    
+  </code>
+</pre>
+
+ Now after defining the wrapper class. we can make a refrence of interface and initiate the class.
+
+<pre>
+  <code>
+  class program{
+    static void main(string[] args){
+      IExport ex= new ExportToWord();
+      ex.Save();
+
+      ex= new ExportToExcel();
+      ex.Save();
+
+      ex= new pdfExportAdapter();
+      ex.save();//through wrapper class we are able to use the same Interface. 
+    } 
+    
+  }
+  </code>
+</pre>
 
 ## 1. Factory Pattern
 Factory Method is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created
