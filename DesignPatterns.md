@@ -160,8 +160,76 @@ Factory allows the consumer to create new objects without having to know the det
 </ul>
 </div>
 
+## Implementation 
 <pre><code>
   
+namespace DesignPattern
+{
+    public interface Itax {
+
+        void Calculate();
+    
+    }
+    public class GstTax : Itax
+    {
+        public void Calculate()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class VatTax : Itax
+    {
+        public void Calculate()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class newTax : Itax
+    {
+        public void Calculate()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    //Client 
+    public class programe
+    {
+        public static void main()
+        {
+          //without factory pattern, we are exposing the implemantion and if any 
+          //dependency is there we are exposing that as well to the client.
+  
+            Itax tax = new GstTax();
+            tax.Calculate();
+
+            //or 
+            tax = new VatTax();
+            tax.Calculate();            
+        }
+    }
+
+    //Factory Pattern Implementation
+    public static class Factory {
+        public static Itax CreateInstance(int type)
+        {
+            //In factory pattern we centralize the class initiation and If any dependecies are there we can handle it here only 
+            //at a central place and the client need not to know the implementation. 
+            //If any new tax type comes up,client implementaion will not change just they will pass new type and we can make instance of 
+            //that class type and return type. 
+            if (type == 1)
+            {                
+                return new GstTax();
+            }
+            else
+            {
+                return new VatTax();
+            }
+        }
+    }  
+}
 </code></pre>
 ## 2. 
  
