@@ -8,9 +8,6 @@ Desin patterns can be categorized as below:
 
 **Behavioral patterns** take care of effective communication and the assignment of responsibilities between objects.
 
-
-
-
 <table>
   <tbody>
   <tr>
@@ -44,8 +41,10 @@ Desin patterns can be categorized as below:
 
 Credit: https://www.youtube.com/watch?v=mFdFYm4RiDw
 
+
 ##2. Adapter Pattern
-Adapter pattern is a structural design pattern which works as a bridge between two incompatible interfaces. It also known as a wrapper pattern. It allows the interface of an existing class to be used as another interface. Lets drill down the Adaptor pattern with an example, Suppose we have an export functionality in our application for ExporttoWord and Exporttoexcel like below
+
+Adapter pattern is a structural design pattern which works as a bridge between two incompatible interfaces. It also known as a wrapper pattern. It allows the interface of an existing class to be used as another interface.It is often used to make existing classes work with others without modifying their source code. Lets drill down the Adaptor pattern with an example, Suppose we have an export functionality in our application for ExporttoWord and Exporttoexcel like below
 
 Base inetrface "IExport" is defined with method decalration Save() so that exportToExcel and exporttoWord can make a uniform functionality.
 
@@ -130,22 +129,11 @@ Now we need to define the wrapper/Adapter class to make the export functionality
   </code>
 </pre>
 
-## 1. Factory Pattern
-Factory Method is a creational design pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created
-
-<ul>
-  <li>
-    Use the Factory Method when you don’t know beforehand the exact types and dependencies of the objects your code should work with
-  </li>
-  <li>
-    The Factory Method separates product construction code from the code that actually uses the product. Therefore it’s easier to extend the product construction code independently from the rest of the code.
-  </li>
-  <li>
-     Use the Factory Method when you want to save system resources by reusing existing objects instead of rebuilding them each time
-  </li>
-</ul>
-
-For example, to add a new product type to the app, you’ll only need to create a new creator subclass and override the factory method in it.
+## 3. Factory Pattern
+Factory Method is a creational design pattern, it abstract the process of object creation and allows the object to be created at run-time when it is required. It basically centralized the object creation. 
+Use the Factory Method when you don’t know beforehand the exact types and dependencies of the objects your code should work with
+ 
+Factory allows the consumer to create new objects without having to know the details of how they're created, or what their dependencies are - they only have to give the information they actually want.
 
 <div>
   
@@ -172,6 +160,9 @@ For example, to add a new product type to the app, you’ll only need to create 
 </ul>
 </div>
 
+<pre><code>
+  
+</code></pre>
 ## 2. 
  
 ### Solid Principle 
