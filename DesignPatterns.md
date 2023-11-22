@@ -263,7 +263,8 @@ SOLID is an acronym for the first 5 principles of object-oriented design:
 
 **ISP** The Interface Segregation Principle: -- make fine grained interfaces that are client specific.
 
-**DIP** The Dependency Inversion Principle -- depend on abstractions not on concrete implementations.
+### DIP** The Dependency Inversion Principle -- depend on abstractions not on concrete implementations.
+Inversion of control (IoC) is a technique that implements the DIP by delegating the responsibility of creating and managing the dependencies between the modules to an external entity, such as a framework or a container. This entity is also known as the IoC container, and it can provide different types of dependency injection, such as constructor injection, setter injection, or method injection. Dependency injection is the process of passing the dependencies to the modules through their constructors, setters, or methods, instead of letting the modules create or obtain them by themselves.
  
  <div>
   
