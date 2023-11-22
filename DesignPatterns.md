@@ -32,7 +32,7 @@ Desin patterns can be categorized as below:
   </tr>
     <tr>
        <td>6.</td>
-    <td>Dependency Injection (DI) Pattern</td>
+    <td>Dependency Injection (DI) Pattern and IOC </td>
   </tr>
   </tbody>
 </table>
@@ -237,6 +237,10 @@ public class programe
     }
 }
 </code></pre>
+
+## DI Injction Pattern
+Dependency Injection is one of the subtypes of the IOC principle.
+
 ## 2. 
  
 ### Solid Principle 
