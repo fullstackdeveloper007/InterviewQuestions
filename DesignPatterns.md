@@ -34,6 +34,14 @@ Desin patterns can be categorized as below:
        <td>6.</td>
     <td>Dependency Injection (DI) Pattern and IOC </td>
   </tr>
+    <tr>
+      <td>7.</td>
+      <td>DDD Domain Driven Design </td>
+    </tr>
+    <tr>
+      <td>8.</td>
+      <td>Onion Architecture and Clean Architecture </td>
+    </tr>
   </tbody>
 </table>
 
