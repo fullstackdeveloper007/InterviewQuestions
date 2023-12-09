@@ -76,6 +76,36 @@ public class Program
 </pre>
 
 **2. AddTransient Vs AddScoped Vs AddSingleton In ASP.NET Core**
+
+ 
+<table>
+<tr>
+	<th>Service Type </th>
+	<th>In scope of given Http request </th>
+	<th>In different Http request</th>
+</tr>
+	<tbody>
+	<tr>
+		<td>Scope Service </td>
+		<td>Same Instance </td>
+		<td>New Instance </td>			
+	</tr>
+	<tr>
+		<td>Transient Service </td>
+		<td>New Instance </td>
+		<td>New Instance </td>			
+	</tr>	
+	<tr>
+		<td>Singleton Service </td>
+		<td>Same Instance </td>
+		<td>Same Instance </td>			
+	</tr>		
+	</tbody>
+</table>
+
+** AddScoped : In scoped, in the given http request same instnace of object will be provided thourout the request.
+** AddTransient : In transient, with in the same request if that object is injected in more then one class different instance will be provided but in case of scoped same will be provided.
+
 ![NetCore](https://github.com/fullstackdeveloper007/InterviewQuestions/assets/96370256/8795f7b8-9331-4f5c-a418-a9ed70ed4d83)
 * **AddTransient** - Transient lifetime services are created each time they are requested. This lifetime works best for lightweight, stateless services.
 
