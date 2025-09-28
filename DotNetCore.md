@@ -19,12 +19,12 @@ Here’s a **comprehensive .NET / .NET Core concepts table**:
 
 # 📝 MVC Concepts
 
-| **Topic**                       | **Details**                                                                                                                                                                                     |
+| **Topic**                       | **Details**                                                                                                                                                                                   |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **MVC vs ASP.NET Web Forms**    | - MVC → Separation of Concerns, testable, lightweight, HTML/CSS/JS friendly.<br> - Web Forms → ViewState heavy, tightly coupled, event-driven, not great for SPAs/APIs.                         |
-| **Page Life Cycle in MVC**      | Simpler than Web Forms: **Routing → Controller Init → Action Execution → Result Execution → View Render**. No heavy ViewState/postback cycle.                                                   |
+| **MVC vs ASP.NET Web Forms**    | - MVC → Separation of Concerns, testable, lightweight, HTML/CSS/JS friendly.<br> - Web Forms → ViewState heavy, tightly coupled, event-driven, not great for SPAs/APIs.                       |
+| **Page Life Cycle in MVC**      | Simpler than Web Forms: **Routing → Controller Init → Action Execution → Result Execution → View Render**. No heavy ViewState/postback cycle.                                                 |
 | **Routing in ASP.NET Core MVC** | Uses **Endpoint Routing**.<br> Example: `endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");`.<br> Attributes like `[Route("api/[controller]")]`. |
-| **Razor Pages**                 | Page-based model on top of MVC. Each `.cshtml` file has a PageModel (`.cshtml.cs`). Simplifies CRUD apps, less ceremony than controllers.                                                       |
+| **Razor Pages**                 | Page-based model on top of MVC. Each `.cshtml` file has a PageModel (`.cshtml.cs`). Simplifies CRUD apps, less ceremony than controllers.                                                     
 
 ---
 
@@ -65,8 +65,104 @@ Do you also want me to extend this into a **Q&A cheat sheet** (like common inter
 * **.net core**  - It is open source,cross Platform, light and dependency injection is an added advantage.
 
 * **Dependency Injection** - It is a design pattern that allows to pass dependency to objects instead of creating it inside, This way the classes will be loosly copuled and easy to change, test and reuse the code.
-
    By exposing dependencies in the constructor, you expose public information about the needs of your code, further explaining what it does and what it's needs are..
+
+# 🔹 `ConfigureServices` vs `Configure` in ASP.NET Core
+
+Both live in `Startup.cs` (or in `Program.cs` in minimal hosting model after .NET 6). They serve **different purposes** in app startup:
+
+---
+
+## 1. **ConfigureServices(IServiceCollection services)**
+
+* Purpose: **Register dependencies & services** with the built-in Dependency Injection (DI) container.
+* Called **at application startup**, before the pipeline is built.
+* Adds things that your app needs later (DB, Identity, Logging, Authentication, etc.).
+
+### Example:
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    // Register MVC / API controllers
+    services.AddControllers();
+
+    // Register Entity Framework DbContext
+    services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+    // Add Authentication (JWT for example)
+    services.AddAuthentication("Bearer")
+        .AddJwtBearer(...);
+
+    // Register custom services
+    services.AddScoped<IEmailService, EmailService>();
+}
+```
+
+✅ Think: **“What my app needs to run?” → Register here.**
+
+---
+
+## 2. **Configure(IApplicationBuilder app, IWebHostEnvironment env)**
+
+* Purpose: **Build the HTTP request pipeline (Middleware pipeline).**
+* Defines how an HTTP request is handled and what components are executed in sequence.
+* Runs **after services are registered**.
+
+### Example:
+
+```csharp
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    else
+    {
+        app.UseExceptionHandler("/Home/Error");
+        app.UseHsts();
+    }
+
+    // Middleware pipeline
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    app.UseAuthentication();  // Must come before Authorization
+    app.UseAuthorization();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();  // Map API controllers
+        endpoints.MapRazorPages();   // If Razor Pages are used
+    });
+}
+```
+
+✅ Think: **“How my app should handle requests?” → Define here.**
+
+---
+
+# 🔑 Quick Summary
+
+| Method                | Purpose                            | Examples                                                               |
+| --------------------- | ---------------------------------- | ---------------------------------------------------------------------- |
+| **ConfigureServices** | Register services (DI container)   | `AddDbContext`, `AddControllers`, `AddAuthentication`, custom services |
+| **Configure**         | Define middleware request pipeline | `UseRouting`, `UseAuthentication`, `UseAuthorization`, `UseEndpoints`  |
+
+---
+
+👉 A simple way to remember:
+
+* **ConfigureServices → What you need**
+* **Configure → How you handle requests**
+
+---
+
+Do you want me to also show how this changed in **.NET 6+ minimal hosting model** (where `ConfigureServices` & `Configure` are merged into `Program.cs`)?
 
 ##Program.cs file
 
