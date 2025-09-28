@@ -1,3 +1,63 @@
+# .Net Core
+
+Perfect 👍 — I’ll create a **clean tabular format** with your listed points, correct them, and expand with more essentials that are frequently asked in interviews or needed for brushing up.
+
+Here’s a **comprehensive .NET / .NET Core concepts table**:
+
+---
+
+# 📝 .NET & .NET Core
+| **Topic**                                            | **Details**                                                                                                                                                                                                                               |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **.NET Framework vs .NET Core / .NET 5+**            | **.NET Framework** → Windows-only, tightly coupled to IIS, mature but not cross-platform.<br> **.NET Core (now unified into .NET 5/6/7/8)** → Cross-platform, open source, modular, high performance, can host on Kestrel, Docker, Linux. |
+| **Program Startup (Configure vs ConfigureServices)** | `ConfigureServices(IServiceCollection services)` → Register services (DI container).<br> `Configure(IApplicationBuilder app, IWebHostEnvironment env)` → Setup HTTP request pipeline (middleware).                                        |
+| **CreateDefaultBuilder vs ConfigureWebHostDefaults** | `CreateDefaultBuilder()` → Sets up defaults (logging, config, Kestrel, DI).<br> `ConfigureWebHostDefaults()` → Used inside `CreateDefaultBuilder` to configure hosting (Kestrel, IIS integration, etc.).                                  |
+| **Service Lifetimes**                                | - **Transient** → New instance every time (lightweight services).<br> - **Scoped** → Same instance per HTTP request (DB context).<br> - **Singleton** → Single instance for app lifetime (caching, logging).                              |
+| **Routing in .NET Core APIs**                        | Uses **Endpoint Routing** (`app.UseRouting(); app.UseEndpoints(...)`).<br>Attributes (`[Route]`, `[HttpGet]`) or convention-based.<br>Supports RESTful APIs and MVC routing.                                                              |
+
+---
+
+# 📝 MVC Concepts
+
+| **Topic**                       | **Details**                                                                                                                                                                                     |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **MVC vs ASP.NET Web Forms**    | - MVC → Separation of Concerns, testable, lightweight, HTML/CSS/JS friendly.<br> - Web Forms → ViewState heavy, tightly coupled, event-driven, not great for SPAs/APIs.                         |
+| **Page Life Cycle in MVC**      | Simpler than Web Forms: **Routing → Controller Init → Action Execution → Result Execution → View Render**. No heavy ViewState/postback cycle.                                                   |
+| **Routing in ASP.NET Core MVC** | Uses **Endpoint Routing**.<br> Example: `endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");`.<br> Attributes like `[Route("api/[controller]")]`. |
+| **Razor Pages**                 | Page-based model on top of MVC. Each `.cshtml` file has a PageModel (`.cshtml.cs`). Simplifies CRUD apps, less ceremony than controllers.                                                       |
+
+---
+
+# 📝 API Security & Scaling
+
+| **Topic**                          | **Details**                                                                                                                                                                 |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Securing APIs**                  | - Use **JWT Authentication** (Bearer tokens).<br> - Enable **Authorization policies & roles**.<br> - Use **HTTPS/TLS**.<br> - Protect against **CSRF, XSS, SQL Injection**. |
+| **API Throttling / Rate Limiting** | Restrict requests per user/IP (e.g., 100 requests/min).<br> Implement via **ASP.NET Core Middleware** or API Gateway (Azure API Mgmt, Nginx, Kong).                         |
+| **Load Balancing APIs**            | Distribute requests across servers.<br> Use **Azure Load Balancer, AWS ELB, Nginx, HAProxy, Kubernetes Ingress**.<br> Ensures **scalability + high availability**.          |
+
+---
+
+# 📝 Additional Core Concepts (Good to Brush Up)
+
+| **Topic**                      | **Details**                                                                                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Middleware**                 | Ordered pipeline handling requests/responses. Examples: Authentication, Logging, Exception Handling.                                 |
+| **Dependency Injection (DI)**  | Built-in DI container. Register services via `AddTransient`, `AddScoped`, `AddSingleton`.                                            |
+| **Kestrel Web Server**         | Cross-platform, lightweight, high-performance server used by .NET Core. Can run standalone or behind reverse proxies like Nginx/IIS. |
+| **Configuration in .NET Core** | Uses `appsettings.json`, environment variables, secrets, Azure Key Vault.                                                            |
+| **Logging**                    | Built-in logging with providers (Console, Debug, Azure App Insights, Serilog, NLog).                                                 |
+| **Entity Framework Core**      | ORM for .NET Core. Supports LINQ queries, migrations, change tracking. Works with SQL Server, PostgreSQL, MySQL, etc.                |
+| **gRPC Support**               | High-performance RPC framework, alternative to REST for microservices.                                                               |
+| **Hosting Models**             | - **In-process** (better perf).<br> - **Out-of-process** (via Kestrel + reverse proxy).                                              |
+
+---
+
+✅ This way, you can revise quickly **concept-by-concept** and be ready for interviews or deep dives.
+
+Do you also want me to extend this into a **Q&A cheat sheet** (like common interview questions with crisp answers for each of these)?
+
+
 ## Say Hello to .Net core .. 👋 
 >Click :star:if you like the work 
 
