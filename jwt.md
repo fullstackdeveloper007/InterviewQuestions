@@ -93,6 +93,102 @@ tokenHandler.ValidateToken(token, new TokenValidationParameters
 ```
 
 ---
+Ah, this is a common point of confusion — let me explain clearly how **/refresh** works in a React app.
+
+---
+
+## 🔹 Key Idea
+
+You **do not call `/refresh` on every API request**.
+
+You only call `/refresh` when your **access token has expired**. The refresh token is used **to get a new access token** without making the user log in again.
+
+---
+
+## 🔹 Typical Flow in React
+
+1. **Login**
+
+   * User logs in → server returns:
+
+     * `accessToken` (short-lived, e.g., 15 min) → stored in memory
+     * `refreshToken` (long-lived, e.g., 7 days) → stored in **HTTP-only cookie**
+
+2. **API Calls**
+
+   * Each API request includes `Authorization: Bearer <accessToken>` header.
+
+3. **Access Token Expired**
+
+   * Server responds with `401 Unauthorized` (access token expired).
+
+4. **Refresh Token Flow**
+
+   * Client automatically calls `/refresh` endpoint.
+   * Refresh token (from HTTP-only cookie) is sent automatically by the browser.
+   * Server validates refresh token → issues new access token.
+   * Retry the original API request with the new access token.
+
+---
+
+## 🔹 How refresh token is fetched when accees token is lost and how accees toekn is passed -- React Implementation Pattern (Axios Interceptor) 
+
+```js
+import axios from "axios";
+
+const api = axios.create({ baseURL: "http://localhost:5000/api" });
+
+// Attach access token to every request
+api.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem("accessToken"); // or in memory
+  if (token) config.headers["Authorization"] = `Bearer ${token}`;
+  return config;
+});
+
+// Handle 401 errors
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      // Call refresh endpoint
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/refresh",
+        {},
+        { withCredentials: true } // send HTTP-only cookie
+      );
+
+      sessionStorage.setItem("accessToken", data.accessToken);
+
+      // Retry original request with new access token
+      originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
+      return axios(originalRequest);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default api;
+```
+
+### ✅ Key points:
+
+* `/refresh` is **called only when access token expires**.
+* Access token stored in **memory** (or sessionStorage).
+* Refresh token in **HTTP-only cookie**, sent automatically by browser.
+* Axios interceptors **automate token refresh and retry**.
+
+---
+
+If you want, I can draw a **diagram of React + Node.js JWT flow** showing: login → access token → API calls → refresh → retry, so it’s easy to explain in an interview.
+
+Do you want me to make that diagram?
+
+---
 
 # 🔹 4. **Advanced Concepts**
 
