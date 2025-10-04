@@ -1,5 +1,20 @@
 ## Hello Developer .. 👋 Lets brush up the skills.
 
+### Major Topic of Interview 
+- Nice Intro
+- Company Introduction
+- Project Overview and Tech stack with version like C# .net or react version
+- Security
+- Design Pattern
+- EF Core
+- .Net core
+- Azure Service
+- Caching
+- Microservices
+- -Unit Testing Framewrok
+- 
+
+
 <table>
   <tbody>
   <tr>
@@ -44,6 +59,8 @@
   </tr>
   </tbody>
 </table>
+
+
   
  
  
