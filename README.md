@@ -95,16 +95,54 @@ app.MapGet("/api/data", () => "Data")
    * Use a gateway to centralize authentication, rate limiting, logging, and request validation.
 
 ---
-
 💡 **Optional Short Version for Interviews:**
 
 *"I secure APIs by enforcing HTTPS, using OAuth2/JWT for authentication, applying role-based access control, validating inputs, protecting against CSRF and XSS, encrypting sensitive data, implementing rate limiting, and monitoring all traffic through logging and API gateways. I also follow secure development practices and regularly test APIs for vulnerabilities."*
 
 ---
+## Application Architecture 
+It’s a Warehouse Management System that tracks machinery, inventory, and fleet status in real-time.
 
-If you want, I can also **draft a 30-second spoken version** that sounds natural for an interview without sounding like you’re reading a script.
+- High-Level Architecture:
+  - Frontend: Web app / SPA (React, Angular)
+  - Backend: APIs (.NET Core / .NET 9)
+  - Database: SQL Server / PostgreSQL
+  - Integrations: Telemetry devices, third-party services
+  - Client → API Gateway → Services → Database
 
-Do you want me to do that?
+
+- Each node/service has its own MySQL database.
+- A central database or data warehouse receives updates asynchronously.
+- Instead of writing directly to a central database, updates are sent via a message broker (like RabbitMQ)
+- Services publish events/messages when data changes.
+- Central DB or other services consume messages.
+-Publish Event from Local Service
+```
+  // After writing to local DB
+  var message = JsonSerializer.Serialize(newTelemetry);
+  var body = Encoding.UTF8.GetBytes(message);
+
+  channel.BasicPublish(exchange: "fleet-exchange",
+                     routingKey: "telemetry.created",
+                     basicProperties: null,
+                     body: body);
+
+```
+- Consume Event in Central DB Service
+```
+  channel.BasicConsume(queue: "central-queue",
+    autoAck: true,
+    consumer: new EventingBasicConsumer(channel) { 
+        Received = (model, ea) => {
+            var message = Encoding.UTF8.GetString(ea.Body.ToArray());
+            var telemetry = JsonSerializer.Deserialize<TelemetryEvent>(message);
+            centralDbContext.Telemetry.Add(telemetry);
+            centralDbContext.SaveChanges();
+        }
+  });
+
+```
+- The system is a microservices architecture: the Inventory Service handles stock, the Fleet Service handles machine telemetry, and the API Gateway manages all requests.
 
 <table>
   <tbody>
