@@ -8,7 +8,7 @@
 - Design Pattern
 - EF Core
 - .Net core
-- Azure Service
+- Azure Service (Azure Function, Azure App Service(Paas), Azure SQL Database, Azure Blob Storage,Azure Cosmos DB)
 - Caching
 - Microservices
 - -Unit Testing Framewrok
