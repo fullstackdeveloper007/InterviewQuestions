@@ -15,25 +15,51 @@ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     }
 
 ```
+
+
 **How Lazy Loading Works in EF Core:**
 Virtual Navigation Properties:  For lazy loading to work, the navigation properties (representing relationships to other entities) in your entity classes must be marked as virtual. 
 This allows EF Core to create proxy objects that can intercept access to these properties.
 ```
- public class Author
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public virtual ICollection<Book> Books { get; set; } // Virtual for lazy loading
-    }
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
 
-    public class Book
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public int AuthorId { get; set; }
-        public virtual Author Author { get; set; } // Virtual for lazy loading
-    }
+    // Navigation property
+    public virtual ICollection<Order> Orders { get; set; }
+    public virtual Customer Customer { get; set; }
+}
+
+public class Order
+{
+    public int Id { get; set; }
+    public string Product { get; set; }
+    public int EmployeeId { get; set; }
+}
+
+public class Customer
+{
+    public int Id { get; set; }
+    public string CompanyName { get; set; }
+}
+
 ```
+Example:
+```
+using (var context = new AppDbContext())
+{
+    var emp = context.Employees.FirstOrDefault(e => e.Id == 1);
+
+    // At this point, only Employee data is loaded
+
+    var orders = emp.Orders;    // EF will run a query here automatically
+    var customer = emp.Customer; // Another query runs here
+}
+```
+- That is lazy loading — EF loads related entities when accessed.
+- Note: Orders and Customer will trigger separate SQL queries (can cause N+1 issue if used in loops).
+
 **Disadvantages and Considerations:**
 - N+1 Problem: If you iterate over a collection of entities and access a lazy-loaded navigation property on each one, it can lead to multiple individual database queries (the "N+1 problem"), potentially impacting performance.
 - Performance Overhead: Each lazy-loaded access incurs a separate database round trip, which can be slower than eager loading if many related entities are needed.
