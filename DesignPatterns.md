@@ -1,7 +1,79 @@
 ## Design Patterns
 
-Desin patterns can be categorized as below:
 
+### 1. Repository Pattern
+It’s a design pattern that acts as a middle layer between the data access logic (EF Core, SQL, MongoDB, etc.) and the business logic.
+
+**Why use it?**
+
+- Separation of concerns – business logic doesn’t care how data is stored.
+- Testability – you can mock repositories easily.
+- Reusability – all data access logic is in one place.
+- Flexibility – can swap EF Core with Dapper or MongoDB without changing service logic.
+
+```
+public interface IEmployeeRepository : IRepository<Employee>
+{
+    Task<IEnumerable<Employee>> GetByDepartmentAsync(string dept);
+}
+
+public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
+{
+    private readonly AppDbContext _context;
+    public EmployeeRepository(AppDbContext context) : base(context)
+    {
+        _context = context;
+    }
+
+    public async Task<IEnumerable<Employee>> GetByDepartmentAsync(string dept)
+    {
+        return await _context.Employees
+            .Where(e => e.Department == dept)
+            .ToListAsync();
+    }
+}
+
+
+public class EmployeeService
+{
+    private readonly IEmployeeRepository _employeeRepo;
+
+    public EmployeeService(IEmployeeRepository employeeRepo)
+    {
+        _employeeRepo = employeeRepo;
+    }
+
+    public async Task<IEnumerable<Employee>> GetHRDeptEmployees()
+    {
+        return await _employeeRepo.GetByDepartmentAsync("HR");
+    }
+}
+```
+
+Calling the repository in Controller
+```
+[ApiController]
+[Route("api/[controller]")]
+public class EmployeeController : ControllerBase
+{
+    private readonly EmployeeService _service;
+
+    public EmployeeController(EmployeeService service)
+    {
+        _service = service;
+    }
+
+    [HttpGet("hr")]
+    public async Task<IActionResult> GetHREmployees()
+    {
+        var employees = await _service.GetHRDeptEmployees();
+        return Ok(employees);
+    }
+}
+```
+
+
+Desin patterns can be categorized as below:
 **Creational patterns** provide object creation mechanisms that increase flexibility and reuse of existing code.
 
 **Structural patterns** explain how to assemble objects and classes into larger structures, while keeping these structures flexible and efficient.
