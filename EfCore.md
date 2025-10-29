@@ -74,3 +74,137 @@ using (var context = new AppDbContext())
 - You manually load related data when needed.
 - ❌ Bad for: Lots of boilerplate if used everywhere.
 - Manually load related entities using Entry(entity).Collection(c => c.RelatedCollection).Load() or Entry(entity).Reference(r => r.RelatedEntity).Load().
+
+
+Sure 👍 — here’s a **brief and clear explanation** of each **loading type in Entity Framework (EF) Core**, including examples and when to use them 👇
+
+---
+
+## ⚙️ **1. Eager Loading**
+
+### 📖 What it is:
+
+Eager loading means **loading related data at the same time** as the main entity — in a **single query**.
+
+### ✅ How it works:
+
+You tell EF Core upfront which related entities to include using `.Include()` and `.ThenInclude()`.
+
+### 🧩 Example:
+
+```csharp
+var orders = context.Orders
+    .Include(o => o.Customer)
+    .Include(o => o.OrderItems)
+    .ThenInclude(i => i.Product)
+    .ToList();
+```
+
+### 💡 When to use:
+
+* When you **know you’ll need** the related data immediately.
+* Reduces **number of database calls** (good for performance).
+
+### ⚠️ Caution:
+
+* Can lead to **large joins** and **heavy queries** if too many relationships are included.
+
+---
+
+## ⚙️ **2. Lazy Loading**
+
+### 📖 What it is:
+
+Lazy loading means EF Core **automatically loads related data** when you **access the navigation property** for the first time.
+
+### ✅ How it works:
+
+* Related data is **not loaded initially**.
+* The first time you access the property, EF Core **makes another DB call** to fetch it.
+
+### 🧩 Example:
+
+```csharp
+var order = context.Orders.First();
+var customer = order.Customer; // Triggers DB call if not loaded
+```
+
+### ⚙️ Setup Required:
+
+Lazy loading is **disabled by default**.
+You must enable proxies and mark navigation properties `virtual`.
+
+```csharp
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder.UseLazyLoadingProxies()
+                  .UseSqlServer("connection_string");
+}
+```
+
+### 💡 When to use:
+
+* When you **don’t always need** related data.
+* For **simpler domain models** or **desktop apps** (not ideal for APIs).
+
+### ⚠️ Caution:
+
+* Can cause **N+1 query issues** (many small DB calls).
+* Avoid in **high-traffic or API-based** systems.
+
+---
+
+## ⚙️ **3. Explicit Loading**
+
+### 📖 What it is:
+
+Explicit loading means you **manually load related data** later, **on demand**, using the `Entry()` API.
+
+### ✅ How it works:
+
+You first load the main entity, and then call `.Load()` when you decide to fetch related data.
+
+### 🧩 Example:
+
+```csharp
+var order = context.Orders.First();
+
+// Load related Customer only when needed
+context.Entry(order).Reference(o => o.Customer).Load();
+
+// Load collection (like OrderItems)
+context.Entry(order).Collection(o => o.OrderItems).Load();
+```
+
+### 💡 When to use:
+
+* When you want **fine-grained control** over what data loads and when.
+* Useful when **working with large datasets**.
+
+### ⚠️ Caution:
+
+* You’re responsible for managing **when to load**, so can be **error-prone** if not handled carefully.
+
+---
+
+## 🧾 **Summary Table**
+
+| Type                 | Loads When                           | Triggers Multiple DB Calls | Default in EF Core | Use When                           |
+| -------------------- | ------------------------------------ | -------------------------- | ------------------ | ---------------------------------- |
+| **Eager Loading**    | Immediately (in query)               | ❌ No (single query)        | ❌                  | You always need related data       |
+| **Lazy Loading**     | When navigation property is accessed | ✅ Yes                      | ❌ Disabled         | You sometimes need related data    |
+| **Explicit Loading** | When you call `.Load()` manually     | ✅ Yes                      | ❌                  | You want full control over loading |
+
+---
+
+### 🧠 Quick Analogy
+
+| Type                 | Analogy                                                      |
+| -------------------- | ------------------------------------------------------------ |
+| **Eager Loading**    | Ordering a full meal at once 🍱                              |
+| **Lazy Loading**     | Ordering each dish only when you’re hungry 🍜                |
+| **Explicit Loading** | You choose to go back to the kitchen for more food later 🍽️ |
+
+---
+
+Would you like me to add **performance comparison** between these loading types (query count, latency, and memory impact)?
