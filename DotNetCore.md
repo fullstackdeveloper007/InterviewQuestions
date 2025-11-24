@@ -241,6 +241,246 @@ public class Program
         }
 	</code>
 </pre>
+Below is the **exact .NET 8 style** `Program.cs` and optional `Startup.cs` pattern — with all **common configurations you MUST know for interviews.**
+
+---
+
+# ✅ **.NET 8 Hosting Model (No Startup.cs by default)**
+
+.NET 8 uses **minimal hosting model** → everything is usually in `Program.cs`.
+
+---
+
+# 👉 **Program.cs (Standard .NET 8 Template)**
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// -------------------
+// 1. Add Services
+// -------------------
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Dependency Injection
+builder.Services.AddScoped<IMyService, MyService>();
+
+// Database (EF Core example)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowAnyOrigin();
+    });
+});
+
+// Authentication (JWT)
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+// Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+// Configuration Binding (IOptions)
+builder.Services.Configure<AppSettings>(
+    builder.Configuration.GetSection("AppSettings"));
+
+
+var app = builder.Build();
+
+// -------------------
+// 2. Middleware Pipeline
+// -------------------
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+```
+
+---
+
+# ⭐ **Configurations Done in Program.cs**
+
+### **Service Registration (builder.Services...)**
+
+You configure:
+
+* Controllers
+* Swagger
+* EF Core DbContext
+* CORS policies
+* Authentication (JWT)
+* Authorization policies
+* Dependency injection for services
+* Logging providers
+* HttpClient
+* Configuration binding (IOptions)
+* Health Checks
+* Background services
+
+---
+
+### **Middleware Pipeline (app...)**
+
+You configure:
+
+* Exception handling
+* Swagger UI
+* HTTPS redirection
+* CORS
+* Authentication
+* Authorization
+* Routing
+* Static files
+* Custom middleware
+* Endpoint mappings (MapControllers / MapGet etc.)
+
+---
+
+# 🚀 **If You Want Startup.cs Style in .NET 8**
+
+Even though .NET 8 doesn’t use Startup.cs, you can still add it for clarity.
+
+---
+
+# 👉 **Startup.cs (Custom but Valid in .NET 8)**
+
+### Program.cs:
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+var startup = new Startup(builder.Configuration);
+
+startup.ConfigureServices(builder.Services);
+
+var app = builder.Build();
+
+startup.Configure(app, app.Environment);
+
+app.Run();
+```
+
+---
+
+### Startup.cs:
+
+```csharp
+public class Startup
+{
+    public IConfiguration Configuration { get; }
+
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    // -------------------
+    // ConfigureServices
+    // -------------------
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddScoped<IMyService, MyService>();
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+        });
+
+        services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+    }
+
+    // -------------------
+    // Configure
+    // -------------------
+    public void Configure(WebApplication app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseCors("AllowAll");
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+    }
+}
+```
+
+---
+
+# 🔥 **Where We Configure What? — Interview Winning Table**
+
+| Area                      | Where It Is Configured | Example                    |
+| ------------------------- | ---------------------- | -------------------------- |
+| **Services / DI**         | `builder.Services`     | AddDbContext, AddScoped    |
+| **Controllers**           | Services               | AddControllers             |
+| **Swagger**               | Services + Middleware  | AddSwaggerGen / UseSwagger |
+| **Logging**               | builder.Logging        | AddConsole                 |
+| **Database**              | Services               | AddDbContext               |
+| **CORS Policies**         | Services               | AddCors                    |
+| **CORS Usage**            | Middleware             | UseCors                    |
+| **Authentication**        | Services               | AddJwtBearer               |
+| **Authorization**         | Middleware             | UseAuthorization           |
+| **Middleware Pipeline**   | app.UseX               | UseHttps, UseAuth          |
+| **Routing**               | app.MapX               | MapControllers             |
+| **Configuration Binding** | Services               | Configure<T>()             |
+
+---
+
+# 🎯 **If interviewer asks:**
+
+### **Where do you write what?**
+
+Answer this:
+
+> “All service registrations like DB, DI, authentication, CORS, logging go inside
+> `builder.Services`.
+> And all middleware components like HTTPS redirection, authentication, authorization, CORS, exception handling and routing go inside the `app.Use...` pipeline after `app = builder.Build()`.”
 
 **2. AddTransient Vs AddScoped Vs AddSingleton In ASP.NET Core**
 
